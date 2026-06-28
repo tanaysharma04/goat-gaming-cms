@@ -10,3 +10,4 @@ Install dependencies, then start Vite:
     pnpm dev
 
 The games are stored in src/data/games.js. Add another object to that array to render another alternating game card automatically.
+
