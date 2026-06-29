@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { FaDirections, FaMapMarkerAlt } from 'react-icons/fa';
 
-const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Crossing%20Republik%2C%20Ghaziabad%2C%20Uttar%20Pradesh';
+const mapsUrl = 'https://www.google.com/maps/place/Assotech+Hi-Street/data=!4m7!3m6!1s0x390cf33fb354907f:0xa28a7ec2d7b454b9!8m2!3d28.626686!4d77.4382843!16s%2Fg%2F11qr17rp_9!19sChIJf5BUsz_zDDkRuVS018J-iqI?authuser=0&hl=en&rclk=1';
 
 export default function Location() {
   return (
@@ -17,6 +17,9 @@ export default function Location() {
           <p className="section-kicker">Location</p>
           <h2 className="section-title">Visit GOAT GAMING</h2>
           <address className="mt-8 not-italic text-lg leading-9 text-white/70">
+            2nd floor,
+            Assotech Hi-Street,
+            <br />
             Crossing Republik,
             <br />
             Ghaziabad,
@@ -44,7 +47,7 @@ export default function Location() {
             <FaMapMarkerAlt aria-hidden="true" />
           </div>
           <div className="absolute bottom-5 left-5 right-5 rounded-lg border border-white/10 bg-black/50 p-4 text-sm text-white/70 backdrop-blur">
-            Google Maps placeholder. Replace this panel with your embedded map when ready.
+            Play with your friends
           </div>
         </motion.div>
       </div>

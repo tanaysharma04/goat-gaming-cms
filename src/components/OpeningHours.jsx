@@ -36,7 +36,7 @@ export default function OpeningHours() {
             </div>
             <div className="rounded-lg border border-white/10 bg-black/30 p-6">
               <FaClock className="mx-auto text-2xl text-ember" aria-hidden="true" />
-              <p className="mt-4 text-sm font-black uppercase text-white/40">10:00 AM - 2:00 AM</p>
+              <p className="mt-4 text-sm font-black uppercase text-white/40">10:00 AM - 6:00 AM</p>
             </div>
           </div>
           <p className="mt-8 font-heading text-5xl leading-none text-white">Open 7 Days a Week</p>

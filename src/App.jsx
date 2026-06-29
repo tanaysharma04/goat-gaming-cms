@@ -20,12 +20,11 @@ export default function App() {
           <Hero />
           <GamesSection />
           <ComingSoon />
+          <OpeningHours />
+          <Location />
           <Setup />
           <Pricing />
-          <Facilities />
-          <OpeningHours />
           <Reviews />
-          <Location />
         </main>
         <Footer />
       </div>
