@@ -25,7 +25,7 @@ export default function Hero() {
         className="mx-auto max-w-5xl text-center"
       >
         <p className="mb-5 inline-flex rounded-lg border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase text-white/80 backdrop-blur">
-          Crossing Republik, Ghaziabad
+          Assotech Hi-Street, Crossing Republik, Ghaziabad
         </p>
         <h1 className="font-heading text-[clamp(4.6rem,16vw,10.5rem)] leading-[0.84] text-white">
           GOAT GAMING
