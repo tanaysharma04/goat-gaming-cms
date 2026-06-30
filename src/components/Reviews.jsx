@@ -50,7 +50,7 @@ export default function Reviews() {
       setSubmitting(true);
 
       await submitReview({
-        name,
+        name: capitalizeName(name),
         rating,
         review,
       });
@@ -152,7 +152,7 @@ export default function Reviews() {
       </p>
 
       <p className="mt-6 font-bold">
-        ~{review.name}
+        ~ {capitalizeName(review.name)}
       </p>
 
     </motion.article>
@@ -243,4 +243,11 @@ export default function Reviews() {
       </div>
     </section>
   );
+}
+function capitalizeName(name) {
+  if (!name) return "";
+
+  return name
+    .toLowerCase()
+    .replace(/\b\w/g, (char) => char.toUpperCase());
 }
