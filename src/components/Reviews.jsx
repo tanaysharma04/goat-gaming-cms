@@ -12,7 +12,7 @@ export default function Reviews() {
   const [loading, setLoading] = useState(true);
 
   const [showModal, setShowModal] = useState(false);
-
+  const [showAllReviews, setShowAllReviews] = useState(false);
   const [name, setName] = useState("");
   const [rating, setRating] = useState(5);
   const [review, setReview] = useState("");
@@ -27,6 +27,7 @@ export default function Reviews() {
         reviews.length
       ).toFixed(1)
     : "0.0";
+    const latestReviews = reviews.slice(0, 6);
 
   async function loadReviews() {
     try {
@@ -172,7 +173,7 @@ export default function Reviews() {
 
 ) : (
 
-  reviews.map((review) => (
+  latestReviews.map((review) => (
 
     <motion.article
       key={review.id}
@@ -204,84 +205,158 @@ export default function Reviews() {
 )}
 </div>
         )}
-        <AnimatePresence>
-                    {showModal && (
-            <motion.div
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+        {reviews.length > 6 && (
+         <div className="mt-10 text-center">
+           <button
+            onClick={() => setShowAllReviews(true)}
+            className="rounded-full border border-trophy px-8 py-3 font-semibold text-trophy transition hover:bg-trophy hover:text-black"
+    >
+      View All {reviews.length} Reviews →
+    </button>
+  </div>
+)}
+      <AnimatePresence>
+
+  {/* All Reviews Modal */}
+
+  {showAllReviews && (
+    <motion.div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-5"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <motion.div
+        initial={{ scale: 0.95 }}
+        animate={{ scale: 1 }}
+        exit={{ scale: 0.95 }}
+        className="max-h-[85vh] w-full max-w-4xl overflow-y-auto rounded-2xl border border-white/10 bg-carbon p-8"
+      >
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h2 className="text-3xl font-black text-white">
+              All Reviews
+            </h2>
+
+            <p className="mt-2 text-white/60">
+              ⭐ {averageRating} • {reviews.length} Reviews
+            </p>
+          </div>
+
+          <button
+            onClick={() => setShowAllReviews(false)}
+            className="text-3xl text-white/60 hover:text-white"
+          >
+            <FaTimes />
+          </button>
+        </div>
+
+        <div className="space-y-5">
+          {reviews.map((review) => (
+            <div
+              key={review.id}
+              className="rounded-xl border border-white/10 bg-black/30 p-5"
             >
-              <motion.form
-                onSubmit={handleSubmit}
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                className="w-full max-w-lg rounded-2xl border border-white/10 bg-carbon p-8 shadow-2xl"
-              >
-                <div className="mb-8 flex items-center justify-between">
-                  <h2 className="text-2xl font-black text-white">
-                    Leave a Review
-                  </h2>
+              <div className="mb-3 flex gap-1 text-yellow-400">
+                {Array.from({ length: review.rating }).map((_, i) => (
+                  <FaStar key={i} />
+                ))}
+              </div>
 
-                  <button
-                    type="button"
-                    onClick={() => setShowModal(false)}
-                    className="text-white/60 transition hover:text-white"
-                  >
-                    <FaTimes size={22} />
-                  </button>
-                </div>
+              <p className="text-white/70">
+                "{review.review}"
+              </p>
 
-                <input
-                  className="mb-5 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none transition focus:border-trophy"
-                  placeholder="Your Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
+              <p className="mt-4 font-bold">
+                ~ {capitalizeName(review.name)}
+              </p>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+    </motion.div>
+  )}
 
-                <div className="mb-6 flex justify-center gap-2">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <FaStar
-                      key={star}
-                      size={34}
-                      onClick={() => setRating(star)}
-                      onMouseEnter={() => setHoverRating(star)}
-                      onMouseLeave={() => setHoverRating(0)}
-                      className="cursor-pointer transition duration-200 hover:scale-125"
-                      color={
-                        star <= (hoverRating || rating)
-                          ? "#FFD54A"
-                          : "#555"
-                      }
-                    />
-                  ))}
-                </div>
+  {/* Leave Review Modal */}
 
-                <textarea
-                  rows={5}
-                  placeholder="Share your gaming experience..."
-                  className="mb-6 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none transition focus:border-trophy"
-                  value={review}
-                  onChange={(e) => setReview(e.target.value)}
-                />
+  {showModal && (
+    <motion.div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <motion.form
+        onSubmit={handleSubmit}
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        className="w-full max-w-lg rounded-2xl border border-white/10 bg-carbon p-8 shadow-2xl"
+      >
+        <div className="mb-8 flex items-center justify-between">
+          <h2 className="text-2xl font-black text-white">
+            Leave a Review
+          </h2>
 
-                <button
-                  disabled={submitting}
-                  className="w-full rounded-xl bg-trophy py-4 text-lg font-black text-black transition hover:scale-[1.02] disabled:opacity-60"
-                >
-                  {submitting
-                    ? "Submitting..."
-                    : "Submit Review"}
-                </button>
+          <button
+            type="button"
+            onClick={() => setShowModal(false)}
+            className="text-white/60 transition hover:text-white"
+          >
+            <FaTimes size={22} />
+          </button>
+        </div>
 
-                <p className="mt-5 text-center text-sm text-white/50">
-                  Reviews are published after approval by the cafe owner.
-                </p>
-              </motion.form>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <input
+          className="mb-5 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none transition focus:border-trophy"
+          placeholder="Your Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+
+        <div className="mb-6 flex justify-center gap-2">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <FaStar
+              key={star}
+              size={34}
+              onClick={() => setRating(star)}
+              onMouseEnter={() => setHoverRating(star)}
+              onMouseLeave={() => setHoverRating(0)}
+              className="cursor-pointer transition duration-200 hover:scale-125"
+              color={
+                star <= (hoverRating || rating)
+                  ? "#FFD54A"
+                  : "#555"
+              }
+            />
+          ))}
+        </div>
+
+        <textarea
+          rows={5}
+          placeholder="Share your gaming experience..."
+          className="mb-6 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none transition focus:border-trophy"
+          value={review}
+          onChange={(e) => setReview(e.target.value)}
+        />
+
+        <button
+          disabled={submitting}
+          className="w-full rounded-xl bg-trophy py-4 text-lg font-black text-black transition hover:scale-[1.02] disabled:opacity-60"
+        >
+          {submitting
+            ? "Submitting..."
+            : "Submit Review"}
+        </button>
+
+        <p className="mt-5 text-center text-sm text-white/50">
+          Reviews are published after approval by the cafe owner.
+        </p>
+      </motion.form>
+    </motion.div>
+  )}
+
+</AnimatePresence>  
       </div>
     </section>
   );
