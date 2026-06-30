@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaStar, FaTimes } from "react-icons/fa";
+import toast from "react-hot-toast";
 import {
   getApprovedReviews,
   submitReview,
@@ -19,6 +20,13 @@ export default function Reviews() {
   const [hoverRating, setHoverRating] = useState(0);
 
   const [submitting, setSubmitting] = useState(false);
+  const averageRating =
+  reviews.length > 0
+    ? (
+        reviews.reduce((sum, review) => sum + review.rating, 0) /
+        reviews.length
+      ).toFixed(1)
+    : "0.0";
 
   async function loadReviews() {
     try {
@@ -42,7 +50,7 @@ export default function Reviews() {
     e.preventDefault();
 
     if (!name.trim() || !review.trim()) {
-      alert("Please fill all fields.");
+      toast.error("Please fill all fields.");
       return;
     }
 
@@ -55,10 +63,9 @@ export default function Reviews() {
         review,
       });
 
-      alert(
-        "Thank you! Your review has been submitted for approval."
+      toast.success(
+        "Thank You, Review submitted! Waiting for approval."
       );
-
       setName("");
       setRating(5);
       setReview("");
@@ -67,7 +74,7 @@ export default function Reviews() {
 
       loadReviews();
     } catch (err) {
-      alert(err.message);
+      toast.error(err.message);
     } finally {
       setSubmitting(false);
     }
@@ -88,14 +95,49 @@ export default function Reviews() {
           className="flex items-center justify-between mb-12"
         >
           <div>
-            <p className="section-kicker">
-              Reviews
-            </p>
 
-            <h2 className="section-title">
-              What Gamers Say
-            </h2>
-          </div>
+  <p className="section-kicker">
+    Reviews
+  </p>
+
+  <h2 className="section-title">
+    What Gamers Say
+  </h2>
+
+  <div className="mt-3 flex items-center gap-3">
+
+    <div className="flex text-yellow-400">
+
+      {Array.from({ length: 5 }).map((_, i) => (
+
+        <FaStar
+          key={i}
+          className={
+            i < Math.round(Number(averageRating))
+              ? ""
+              : "opacity-25"
+          }
+        />
+
+      ))}
+
+    </div>
+
+    <span className="font-bold text-white">
+
+      {averageRating}
+
+    </span>
+
+    <span className="text-white/60">
+
+      Based on {reviews.length} review{reviews.length !== 1 ? "s" : ""}
+
+    </span>
+
+  </div>
+
+</div>
 
           <button
             onClick={() => setShowModal(true)}
