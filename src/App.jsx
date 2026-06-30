@@ -12,6 +12,7 @@ import Footer from './components/Footer.jsx';
 import { GamesProvider } from './hooks/useGames.jsx';
 
 export default function App() {
+ 
   return (
     <GamesProvider>
       <div className="min-h-screen bg-obsidian font-body text-white">
@@ -31,3 +32,4 @@ export default function App() {
     </GamesProvider>
   );
 }
+import { useEffect } from "react";
