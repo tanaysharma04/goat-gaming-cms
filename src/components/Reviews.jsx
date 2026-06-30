@@ -152,7 +152,7 @@ export default function Reviews() {
       </p>
 
       <p className="mt-6 font-bold">
-        — {review.name}
+        ~ {review.name}
       </p>
 
     </motion.article>
